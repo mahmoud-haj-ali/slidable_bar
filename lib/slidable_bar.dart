@@ -16,7 +16,6 @@ class SlidableBar extends StatefulWidget {
   final Color frontColor;
   final Curve curve;
   final double width;
-  final double height;
   final Widget? clicker;
   final double clickerPosition;
   final double clickerSize;
@@ -35,8 +34,7 @@ class SlidableBar extends StatefulWidget {
     this.clickerPosition = 0.0,
     this.clickerSize = 55,
     this.curve = Curves.linear,
-    this.isOpenFirst = false,
-    this.height = 55,
+    this.isOpenFirst = false
   }) : super(key: key);
 
   @override
