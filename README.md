@@ -48,7 +48,18 @@ Then run `$ flutter pub get`. In your library, add the following import:
 ```dart
 import 'package:slidable_bar/slidable_bar.dart';
 ```
+## Preview Images (The positions)
+
+![Top](./top.jpg)
+![Bottom](./bottom.jpg)
+![Right](./right.jpg)
+![Left](./left.jpg)
+
+
+## Custom Clicker
+
+![Custom Clicker](./custom_clicker.jpg)
 
 ## Author
 
-Mahmoud Haj Ali - [GitHub](https://github.com/mahmoud-haj-ali/slidable_bar)
+Mahmoud Haj Ali - [GitHub](https://github.com/mahmoud-haj-ali)

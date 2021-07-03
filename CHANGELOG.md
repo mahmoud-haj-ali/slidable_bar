@@ -1,3 +1,3 @@
-## 1.0.0
+## [1.0.0] - July 2021
 
-* initial release
+* Initial Open Source release.
