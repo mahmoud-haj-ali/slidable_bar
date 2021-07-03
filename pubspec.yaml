@@ -1,8 +1,6 @@
 name: slidable_bar
 description: A Flutter package to show side bar and hide it.
 version: 1.0.0
-homepage: SlidableSideBar
-publish_to: pub.dev
 repository: https://github.com/mahmoud-haj-ali/slidable_bar
 issue_tracker: https://github.com/mahmoud-haj-ali/slidable_bar/issues
 
