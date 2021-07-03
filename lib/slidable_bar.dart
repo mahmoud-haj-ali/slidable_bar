@@ -7,14 +7,16 @@ import 'package:flutter/material.dart';
 class SlidableBar extends StatefulWidget {
 
   final Widget child;
-  final Side? side;
+  final Side side;
   final Duration duration;
+  final bool isOpenFirst;
   final ValueChanged<int>? onChange;
   final List<Widget> barChildren;
   final Color? backgroundColor;
   final Color frontColor;
   final Curve curve;
   final double width;
+  final double height;
   final Widget? clicker;
   final double clickerPosition;
   final double clickerSize;
@@ -33,6 +35,8 @@ class SlidableBar extends StatefulWidget {
     this.clickerPosition = 0.0,
     this.clickerSize = 55,
     this.curve = Curves.linear,
+    this.isOpenFirst = false,
+    this.height = 55,
   }) : super(key: key);
 
   @override
@@ -48,7 +52,7 @@ class _SlidableSideBarState extends State<SlidableBar> {
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
         stream: barStatus.stream,
-        initialData: true,
+        initialData: widget.isOpenFirst,
         builder: (context, snapshot) {
           final isOpened = snapshot.data!;
           return Stack(
@@ -57,15 +61,43 @@ class _SlidableSideBarState extends State<SlidableBar> {
               Positioned.fill(child: widget.child),
               if(widget.clicker == null)
                 AnimatedPositioned(
-                  right: isOpened ? widget.width-(widget.clickerSize*0.54) : -(widget.clickerSize*0.54),
-                  bottom: 0,
-                  top: 0,
+                  right: [Side.bottom,Side.top].contains(widget.side)
+                      ?0
+                      :widget.side == Side.right
+                      ?isOpened
+                      ? widget.width-(widget.clickerSize*0.54)
+                      : -(widget.clickerSize*0.54)
+                      :null,
+                  left: [Side.bottom,Side.top].contains(widget.side)
+                      ?0
+                      :widget.side == Side.left
+                      ?isOpened
+                      ?widget.width-(widget.clickerSize*0.54)
+                      :-(widget.clickerSize*0.54)
+                      :null,
+                  bottom: [Side.right,Side.left].contains(widget.side)
+                      ?0
+                      :widget.side == Side.bottom
+                      ?isOpened
+                      ?widget.width-(widget.clickerSize*0.54)
+                      :-(widget.clickerSize*0.54)
+                      :null,
+                  top: [Side.right,Side.left].contains(widget.side)
+                      ?0
+                      :widget.side == Side.top
+                      ?isOpened
+                      ?widget.width-(widget.clickerSize*0.54)
+                      :-(widget.clickerSize*0.54)
+                      :null,
                   duration: widget.duration,
                   curve: widget.curve,
                   child: Align(
-                    alignment: Alignment(0.0,widget.clickerPosition),
+                    alignment: Alignment(widget.clickerPosition,widget.clickerPosition),
                     child: RotationTransition(
-                      turns: AlwaysStoppedAnimation(315 / 360),
+                      turns: AlwaysStoppedAnimation(
+                          (widget.side == Side.right ? 315
+                              :widget.side == Side.left?135
+                              :widget.side == Side.bottom?45:225) / 360),
                       child: InkWell(
                         onTap: (){
                           barStatus.add(!isOpened);
@@ -96,12 +128,10 @@ class _SlidableSideBarState extends State<SlidableBar> {
                   ),
                 ),
               AnimatedPositioned(
-                  right: widget.side == Side.right? isOpened? 0 : -widget.width : null,
-                  // top: widget.side == Side.top? isOpened? 0 : -10  : null,
-                  // bottom: widget.side == Side.bottom? isOpened? 0 : -10  : null,
-                  top: 0,
-                  bottom: 0,
-                  left: widget.side == Side.left? isOpened? 0 : -widget.width  : null,
+                  right: widget.side == Side.right? isOpened? 0 : -widget.width : widget.side == Side.left?null:0,
+                  top: widget.side == Side.top? isOpened? 0 : -widget.width  : widget.side == Side.bottom?null:0,
+                  bottom: widget.side == Side.bottom? isOpened? 0 : -widget.width  : widget.side == Side.top?null:0,
+                  left: widget.side == Side.left? isOpened? 0 : -widget.width  : widget.side == Side.right?null:0,
                   duration: widget.duration,
                   curve: widget.curve,
                   child: _SideBarContent(
@@ -112,7 +142,8 @@ class _SlidableSideBarState extends State<SlidableBar> {
                       controller: barStatus,
                       clicker: widget.clicker,
                       backgroundColor: widget.backgroundColor,
-                      clickerPosition: widget.clickerPosition
+                      clickerPosition: widget.clickerPosition,
+                      side: widget.side
                   )
               ),
             ],
@@ -140,6 +171,7 @@ class _SideBarContent extends StatelessWidget {
   final ValueChanged<int>? onChange;
   final StreamController<bool> controller;
   final double clickerPosition;
+  final Side side;
   const _SideBarContent({
     Key? key,
     required this.children,
@@ -150,42 +182,61 @@ class _SideBarContent extends StatelessWidget {
     required this.onChange,
     required this.clicker,
     required this.clickerPosition,
+    required this.side,
   }) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: width,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(color: Colors.black12,spreadRadius: 0,blurRadius: 5),
-            ],
-            color: backgroundColor ?? Theme.of(context).primaryColor,
-          ),
-          child: ListView.builder(
-            itemCount: children.length,
-            itemBuilder: (context,index){
-              return GestureDetector(
-                onTap: (){
-                  controller.add(false);
-                  onChange?.call(index);
-                },
-                child: children[index],
-              );
+    final body = Container(
+      width: [Side.left,Side.right].contains(side)?width:null,
+      height: [Side.left,Side.right].contains(side)?null:width,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(color: Colors.black12,spreadRadius: 0,blurRadius: 5),
+        ],
+        color: backgroundColor ?? Theme.of(context).primaryColor,
+      ),
+      child: ListView.builder(
+        itemCount: children.length,
+        scrollDirection: [Side.right,Side.left].contains(side)?Axis.vertical:Axis.horizontal,
+        itemBuilder: (context,index){
+          return GestureDetector(
+            onTap: (){
+              controller.add(false);
+              onChange?.call(index);
             },
-          ),
-        ),
-        if(clicker != null)
-          Align(
-              alignment: Alignment(0.0,clickerPosition),
-              child: GestureDetector(
-                  onTap: () => controller.add(!isOpen),
-                  child: clicker))
-      ],
+            child: children[index],
+          );
+        },
+      ),
     );
+    final customClicker = Align(
+        alignment: Alignment(clickerPosition,clickerPosition),
+        child: GestureDetector(
+            onTap: () => controller.add(!isOpen),
+            child: clicker));
+    if([Side.left,Side.right].contains(side)) {
+      return Row(
+        children: [
+          if(clicker != null && side == Side.left)
+            customClicker,
+          body,
+          if(clicker != null && side == Side.right)
+            customClicker
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          if(clicker != null && side == Side.bottom)
+            customClicker,
+          body,
+          if(clicker != null && side == Side.top)
+            customClicker
+        ],
+      );
+    }
   }
 
 }
