@@ -7,9 +7,12 @@ homepage: https://github.com/mahmoud-haj-ali/slidable_bar
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
+
 dependencies:
   flutter:
     sdk: flutter
+
+
 
 dev_dependencies:
   flutter_test:
