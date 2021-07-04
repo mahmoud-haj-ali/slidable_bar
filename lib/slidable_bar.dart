@@ -1,22 +1,50 @@
 library slidable_bar;
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class SlidableBar extends StatefulWidget {
+
+  /// This child is the widget that will present the side bar above it
   final Widget child;
+
+  /// This is for align the bar and it can be
+  /// [Side.right] the default, [Side.left], [Side.top] and [Side.bottom]
   final Side side;
+
+  /// This for animation
   final Duration duration;
+
+  /// This to set the initial state [true, false]
   final bool isOpenFirst;
+
+  /// This will call when ever the user click on any item inside the bae
   final ValueChanged<int>? onChange;
+
+  /// The children inside the bar
   final List<Widget> barChildren;
+
+  /// This is backgroundColor for the default clicker and bar
   final Color? backgroundColor;
+
+  /// This is the color of the cycle inside the default clicker
   final Color frontColor;
+
+  /// This is the curve of the animation
   final Curve curve;
+
+  /// When the side is bottom or top:
+  /// [width] will be the height of the bar
+  /// else it will be the width
   final double width;
+
+  /// If you want do add your own clicker
   final Widget? clicker;
+
+  /// This for align the clicker
   final double clickerPosition;
+
+  /// This is the size of the default clicker
   final double clickerSize;
 
   const SlidableBar(
