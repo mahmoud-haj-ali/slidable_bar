@@ -2,7 +2,7 @@
 
 A Flutter side bar slider can be with any widget you want
 
-![Demo](./demo.gif)
+<img src="https://i.ibb.co/p4GBvg3/review.gif" alt="review" border="0" width="230px">
 
 ## Features
 
@@ -50,15 +50,18 @@ import 'package:slidable_bar/slidable_bar.dart';
 ```
 ## Preview Images (The positions)
 
-![Top](./top.jpg)
-![Bottom](./bottom.jpg)
-![Right](./right.jpg)
-![Left](./left.jpg)
+<p>
+<img src="https://i.ibb.co/HB2kZKy/right.jpg" alt="right" border="0" width="230px">  <img src="https://i.ibb.co/8M20hLc/left.jpg" alt="left" border="0" width="230px">
+</p>
+
+<p>
+<img src="https://i.ibb.co/pLW0FnG/top.jpg" alt="top" border="0" width="230px">  <img src="https://i.ibb.co/swsNS92/bottom.jpg" alt="bottom" border="0" width="230px">
+</p>
 
 
 ## Custom Clicker
 
-![Custom Clicker](./custom_clicker.jpg)
+<img src="https://i.ibb.co/R7NfPLw/custom-clicker.jpg" alt="custom-clicker" border="0" width="230px">
 
 ## Author
 
