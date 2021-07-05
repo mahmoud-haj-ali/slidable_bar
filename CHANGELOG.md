@@ -1,3 +1,7 @@
+## [1.1.0] - July 2021
+
+* Add Controller and update example.
+
 ## [1.0.2] - July 2021
 
 * Add images.

@@ -13,26 +13,51 @@ class App extends StatelessWidget {
   }
 }
 
-class Example extends StatelessWidget {
+class Example extends StatefulWidget {
+
+  @override
+  _ExampleState createState() => _ExampleState();
+}
+
+class _ExampleState extends State<Example> {
+
+  final SlidableBarController controller = SlidableBarController(initialStatus: true);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('slidable bar example'),
       ),
-      body: SlidableBar(
-        width: 60,
-        frontColor: Colors.green,
-        backgroundColor: Colors.white,
-        barChildren: [
-          FlutterLogo(size: 50,),
-          FlutterLogo(size: 50,),
-          FlutterLogo(size: 50,),
-          FlutterLogo(size: 50,),
+      body: Column(
+        children: [
+          Container(
+            height: 210,
+            width: 300,
+            child: SlidableBar(
+              size: 60,
+              slidableController: controller,
+              side: Side.top,
+              barChildren: [
+                FlutterLogo(size: 50,),
+                FlutterLogo(size: 50,),
+                FlutterLogo(size: 50,),
+                FlutterLogo(size: 50,),
+              ],
+              child: Container(
+                color: Colors.grey.shade200,
+                child: Center(
+                  child: ElevatedButton(
+                    child: Text("reverse status"),
+                    onPressed: (){
+                      controller.reverseStatus();
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
-        child: Container(
-          color: Colors.grey.shade200,
-        ),
       ),
     );
   }
