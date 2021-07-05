@@ -4,7 +4,7 @@
 
 ## [1.0.2] - July 2021
 
-* Add images.
+* Update README.
 
 ## [1.0.1] - July 2021
 
