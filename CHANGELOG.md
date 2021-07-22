@@ -1,3 +1,7 @@
+## [1.1.1] - July 2021
+
+* fix custom clicker in right and left side
+
 ## [1.1.0] - July 2021
 
 * Add Controller and update example.

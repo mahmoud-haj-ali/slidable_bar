@@ -1,41 +1,70 @@
-
 import 'package:flutter/material.dart';
+
 import 'side.dart';
 import 'slidable_bar_controller.dart';
 
 class SlidableBar extends StatefulWidget {
+  /// [child] is the widget under the bar
   final Widget child;
+
+  /// [side] is enum that detect where you want to position the bar
   final Side side;
+
+  /// [duration] the animation duration
   final Duration duration;
+
+  /// [onChange] will be called each time bar state change
   final ValueChanged<int>? onChange;
+
+  /// [barChildren] are the widgets inside the bar
   final List<Widget> barChildren;
+
+  /// [backgroundColor] is the color of the bar
   final Color? backgroundColor;
+
+  /// [frontColor] is the color of the default clicker
   final Color? frontColor;
+
+  /// [curve] is the animation curve
   final Curve curve;
+
+  /// [size] is the height of the bar when side is [Side.top], [Side.bottom]
+  /// and it is the width of the bar when side is [Side.right], [Side.left]
   final double size;
+
+  /// [clicker] is the custom clicker
   final Widget? clicker;
+
+  /// [barRadius] is the radius of the bar
   final BorderRadius? barRadius;
+
+  /// [clickerPosition] is the vertical position of the clicker when side is [Side.top], [Side.bottom]
+  /// and it is the horizontal position of the clicker when side is [Side.right], [Side.left]
   final double clickerPosition;
+
+  /// [clickerSize] is the size for the default clicker
   final double clickerSize;
+
+  /// [slidableController] to control the bar state
   final SlidableBarController? slidableController;
 
   const SlidableBar(
       {Key? key,
-        required this.child,
-        required this.barChildren,
-        required this.size,
-        this.frontColor,
-        this.clicker,
-        this.onChange,
-        this.side = Side.right,
-        this.duration = const Duration(milliseconds: 300),
-        this.backgroundColor,
-        this.clickerPosition = 0.0,
-        this.clickerSize = 55,
-        this.curve = Curves.linear,
-        this.slidableController,
-        this.barRadius
-      }) : super(key: key);
+      required this.child,
+      required this.barChildren,
+      required this.size,
+      this.frontColor,
+      this.clicker,
+      this.onChange,
+      this.side = Side.right,
+      this.duration = const Duration(milliseconds: 300),
+      this.backgroundColor,
+      this.clickerPosition = 0.0,
+      this.clickerSize = 55,
+      this.curve = Curves.linear,
+      this.slidableController,
+      this.barRadius})
+      : super(key: key);
 
   @override
   _SlidableSideBarState createState() => _SlidableSideBarState();
@@ -66,46 +95,46 @@ class _SlidableSideBarState extends State<SlidableBar> {
                   right: [Side.bottom, Side.top].contains(widget.side)
                       ? 0
                       : widget.side == Side.right
-                      ? isOpened
-                      ? widget.size - (widget.clickerSize * 0.54)
-                      : -(widget.clickerSize * 0.54)
-                      : null,
+                          ? isOpened
+                              ? widget.size - (widget.clickerSize * 0.54)
+                              : -(widget.clickerSize * 0.54)
+                          : null,
                   left: [Side.bottom, Side.top].contains(widget.side)
                       ? 0
                       : widget.side == Side.left
-                      ? isOpened
-                      ? widget.size - (widget.clickerSize * 0.54)
-                      : -(widget.clickerSize * 0.54)
-                      : null,
+                          ? isOpened
+                              ? widget.size - (widget.clickerSize * 0.54)
+                              : -(widget.clickerSize * 0.54)
+                          : null,
                   bottom: [Side.right, Side.left].contains(widget.side)
                       ? 0
                       : widget.side == Side.bottom
-                      ? isOpened
-                      ? widget.size - (widget.clickerSize * 0.54)
-                      : -(widget.clickerSize * 0.54)
-                      : null,
+                          ? isOpened
+                              ? widget.size - (widget.clickerSize * 0.54)
+                              : -(widget.clickerSize * 0.54)
+                          : null,
                   top: [Side.right, Side.left].contains(widget.side)
                       ? 0
                       : widget.side == Side.top
-                      ? isOpened
-                      ? widget.size - (widget.clickerSize * 0.54)
-                      : -(widget.clickerSize * 0.54)
-                      : null,
+                          ? isOpened
+                              ? widget.size - (widget.clickerSize * 0.54)
+                              : -(widget.clickerSize * 0.54)
+                          : null,
                   duration: widget.duration,
                   curve: widget.curve,
                   child: Align(
                     alignment: Alignment(widget.clickerPosition, widget.clickerPosition),
                     child: RotationTransition(
                       turns: AlwaysStoppedAnimation((widget.side == Side.right
-                          ? 315
-                          : widget.side == Side.left
-                          ? 135
-                          : widget.side == Side.bottom
-                          ? 45
-                          : 225) /
+                              ? 315
+                              : widget.side == Side.left
+                                  ? 135
+                                  : widget.side == Side.bottom
+                                      ? 45
+                                      : 225) /
                           360),
                       child: InkWell(
-                        onTap: ()=> controller.reverseStatus(),
+                        onTap: () => controller.reverseStatus(),
                         child: Container(
                           width: widget.clickerSize,
                           height: widget.clickerSize,
@@ -120,7 +149,8 @@ class _SlidableSideBarState extends State<SlidableBar> {
                             width: widget.clickerSize * 0.23,
                             height: widget.clickerSize * 0.23,
                             margin: EdgeInsets.all(6),
-                            decoration: BoxDecoration(color: widget.frontColor ?? Theme.of(context).primaryColor, shape: BoxShape.circle),
+                            decoration: BoxDecoration(
+                                color: widget.frontColor ?? Theme.of(context).primaryColor, shape: BoxShape.circle),
                           ),
                         ),
                       ),
@@ -130,32 +160,32 @@ class _SlidableSideBarState extends State<SlidableBar> {
               AnimatedPositioned(
                   right: widget.side == Side.right
                       ? isOpened
-                      ? 0
-                      : -widget.size
+                          ? 0
+                          : -widget.size
                       : widget.side == Side.left
-                      ? null
-                      : 0,
+                          ? null
+                          : 0,
                   top: widget.side == Side.top
                       ? isOpened
-                      ? 0
-                      : -widget.size
+                          ? 0
+                          : -widget.size
                       : widget.side == Side.bottom
-                      ? null
-                      : 0,
+                          ? null
+                          : 0,
                   bottom: widget.side == Side.bottom
                       ? isOpened
-                      ? 0
-                      : -widget.size
+                          ? 0
+                          : -widget.size
                       : widget.side == Side.top
-                      ? null
-                      : 0,
+                          ? null
+                          : 0,
                   left: widget.side == Side.left
                       ? isOpened
-                      ? 0
-                      : -widget.size
+                          ? 0
+                          : -widget.size
                       : widget.side == Side.right
-                      ? null
-                      : 0,
+                          ? null
+                          : 0,
                   duration: widget.duration,
                   curve: widget.curve,
                   child: _SideBarContent(
@@ -168,8 +198,7 @@ class _SlidableSideBarState extends State<SlidableBar> {
                       backgroundColor: widget.backgroundColor,
                       clickerPosition: widget.clickerPosition,
                       side: widget.side,
-                      barRadius: widget.barRadius
-                  )),
+                      barRadius: widget.barRadius)),
             ],
           );
         });
@@ -237,13 +266,13 @@ class _SideBarContent extends StatelessWidget {
     );
     final customClicker = Align(
         alignment: Alignment(clickerPosition, clickerPosition),
-        child: GestureDetector(onTap: ()=> controller.reverseStatus(), child: clicker));
+        child: GestureDetector(onTap: () => controller.reverseStatus(), child: clicker));
     if ([Side.left, Side.right].contains(side)) {
       return Row(
         children: [
-          if (clicker != null && side == Side.left) customClicker,
+          if (clicker != null && side == Side.right) customClicker,
           body,
-          if (clicker != null && side == Side.right) customClicker
+          if (clicker != null && side == Side.left) customClicker
         ],
       );
     } else {

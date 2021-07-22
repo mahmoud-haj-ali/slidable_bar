@@ -29,35 +29,34 @@ class _ExampleState extends State<Example> {
       appBar: AppBar(
         title: Text('slidable bar example'),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 210,
-            width: 300,
-            child: SlidableBar(
-              size: 60,
-              slidableController: controller,
-              side: Side.top,
-              barChildren: [
-                FlutterLogo(size: 50,),
-                FlutterLogo(size: 50,),
-                FlutterLogo(size: 50,),
-                FlutterLogo(size: 50,),
-              ],
-              child: Container(
-                color: Colors.grey.shade200,
-                child: Center(
-                  child: ElevatedButton(
-                    child: Text("reverse status"),
-                    onPressed: (){
-                      controller.reverseStatus();
-                    },
-                  ),
-                ),
+      body: Container(
+        child: SlidableBar(
+          size: 60,
+          slidableController: controller,
+          side: Side.left,
+          clicker: Container(
+            color: Colors.green,
+            height: 50,
+            width: 20,
+          ),
+          barChildren: [
+            FlutterLogo(size: 50,),
+            FlutterLogo(size: 50,),
+            FlutterLogo(size: 50,),
+            FlutterLogo(size: 50,),
+          ],
+          child: Container(
+            color: Colors.grey.shade200,
+            child: Center(
+              child: ElevatedButton(
+                child: Text("reverse status"),
+                onPressed: (){
+                  controller.reverseStatus();
+                },
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
