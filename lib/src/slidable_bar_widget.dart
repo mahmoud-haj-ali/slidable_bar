@@ -47,6 +47,8 @@ class SlidableBar extends StatefulWidget {
 
   /// [slidableController] to control the bar state
   final SlidableBarController? slidableController;
+  
+  final bool hideOnTap;
 
   const SlidableBar(
       {Key? key,
@@ -63,6 +65,7 @@ class SlidableBar extends StatefulWidget {
       this.clickerSize = 55,
       this.curve = Curves.linear,
       this.slidableController,
+      this.hideOnTap = true,
       this.barRadius})
       : super(key: key);
 
@@ -198,6 +201,7 @@ class _SlidableSideBarState extends State<SlidableBar> {
                       backgroundColor: widget.backgroundColor,
                       clickerPosition: widget.clickerPosition,
                       side: widget.side,
+                      hideOnTap: widget.hideOnTap,
                       barRadius: widget.barRadius)),
             ],
           );
@@ -206,7 +210,7 @@ class _SlidableSideBarState extends State<SlidableBar> {
 
   @override
   void dispose() {
-    controller.dispose();
+    if(widget.slidableController == null) controller.dispose();
     super.dispose();
   }
 }
@@ -222,7 +226,8 @@ class _SideBarContent extends StatelessWidget {
   final double clickerPosition;
   final Side side;
   final BorderRadius? barRadius;
-
+  final bool hideOnTap;
+  
   const _SideBarContent({
     Key? key,
     required this.children,
@@ -234,6 +239,7 @@ class _SideBarContent extends StatelessWidget {
     required this.clicker,
     required this.clickerPosition,
     required this.side,
+    required this.hideOnTap,
     required this.barRadius,
   }) : super(key: key);
 
@@ -256,6 +262,7 @@ class _SideBarContent extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
+              if(!hideOnTap) return;
               controller.hide();
               onChange?.call(index);
             },
